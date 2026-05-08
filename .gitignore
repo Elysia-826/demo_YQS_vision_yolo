@@ -364,7 +364,7 @@ fabric.properties
 #*.trt
 
 # 训练日志和结果目录
-runs/
+#runs/
 results.csv
 
 # 数据集 
