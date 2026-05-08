@@ -369,11 +369,12 @@ results.csv
 
 # 数据集 
 dataset/
-data/images/
-data/labels/
+dataset/images/
+dataset/labels/
 *.jpg
 *.png
 *.jpeg
+dataset/labels/**/*.txt
 
 # IDE 配置文件 
 .vscode/
