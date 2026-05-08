@@ -357,11 +357,11 @@ fabric.properties
 .idea/**/azureSettings.xml
 
 # 模型权重文件
-*.pt
-*.pth
-*.onnx
-*.engine
-*.trt
+#*.pt
+#*.pth
+#*.onnx
+#*.engine
+#*.trt
 
 # 训练日志和结果目录
 runs/
