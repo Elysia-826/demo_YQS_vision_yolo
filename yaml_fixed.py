@@ -1,45 +1,54 @@
+import torch
 import os
 
-import torch
-from ultralytics import YOLO
+# ================== 配置区 ==================
+WRONG_PT = r"C:\Users\YQS\Desktop\yolo\runs\detect\runs\temp_seed\v1\weights\best.pt"
+FIXED_PT = r"C:\Users\YQS\Desktop\yolo\runs\detect\runs\temp_seed\v1\weights\best_fixed.pt"
 
-os.environ['ULTRALYTICS_OFFLINE'] = '1'
-# ================== 修改这里 ==================
-WRONG_PT = r"C:\Users\YQS\Desktop\yolo\runs\temp_seed\v1\weights\best.pt"     # 旧模型
-FIXED_PT = r"C:\Users\YQS\Desktop\yolo\runs\temp_seed\v1\weights\best_fixed.pt" # 修正后模型
+# 你的映射：错误索引 -> 正确索引
+new_order = [1, 0, 2, 4, 3, 5]
+# ===========================================
 
-# 错误→正确的映射（错误索引对应的正确索引）
-new_order = [1, 0, 2, 4, 3, 5]  # 已按你的要求配置好
-# =============================================
+# 1. 检查文件存在
+if not os.path.exists(WRONG_PT):
+    raise FileNotFoundError(f"找不到模型文件：{WRONG_PT}")
 
-print("加载旧模型...")
-model = YOLO(WRONG_PT)
+# 2. 用 torch.load 直接加载 checkpoint，不经过 ultralytics 封装
+print("正在加载模型 checkpoint（完全离线）...")
+checkpoint = torch.load(WRONG_PT, map_location='cpu', weights_only=False)
 
-# 定位分类卷积层（YOLOv11/v8 检测头最后一个分类分支）
-detect = model.model.model[-1]               # 检测头模块
-cls_conv = detect.cv2[-1]                    # cv2 中最后一个卷积负责分类
+# 3. 从 checkpoint 中提取模型结构（通常包含在 'model' 字段）
+#    也可能是整个模型保存，根据 ultralytics 保存格式适配
+if 'model' in checkpoint:
+    model = checkpoint['model']          # 通常是完整的 nn.Module 对象
+else:
+    # 有些旧版本可能直接是 state_dict，需要先构建模型再加载，但我们这里只修改权重
+    raise ValueError("未找到 'model' 字段，请确认这是一个完整的 Ultralytics checkpoint")
 
-# 验证通道数
+# 4. 定位检测头分类卷积层
+#    Ultralytics 模型结构一般是 model.model[-1] 为 Detect 模块
+try:
+    detect = model.model[-1]  # 检测头
+    cls_conv = detect.cv2[-1]  # 分类分支的最后一个卷积
+except Exception as e:
+    raise RuntimeError("无法定位分类卷积层，模型结构可能不标准") from e
+
+# 5. 验证类别数
 nc = cls_conv.out_channels
 if len(new_order) != nc:
-    raise ValueError(f"new_order 长度 ({len(new_order)}) 与类别数 ({nc}) 不匹配！")
+    raise ValueError(f"映射长度 ({len(new_order)}) 与类别数 ({nc}) 不匹配！")
 
-print(f"类别数: {nc}，映射: {new_order}")
+print(f"类别数: {nc}, 映射: {new_order}")
 
-# 交换权重与偏置
+# 6. 交换权重和偏置
 cls_conv.weight.data = cls_conv.weight.data[new_order, :, :, :]
 if cls_conv.bias is not None:
     cls_conv.bias.data = cls_conv.bias.data[new_order]
 
-# 保存
-model.save(FIXED_PT)
-print(f"✅ 修正完成，已保存至: {FIXED_PT}")
+# 7. 更新 checkpoint 中的类别名（可选，不影响功能）
+if hasattr(model, 'names'):
+    model.names = {i: f'class{i}' for i in range(nc)}
 
-#验证
-m_old = YOLO(WRONG_PT)
-m_new = YOLO(FIXED_PT)
-# 印出分类卷积权重的前几个通道，看是否是交换后的
-w_old = m_old.model.model[-1].cv2[-1].weight.data
-w_new = m_new.model.model[-1].cv2[-1].weight.data
-print("通道0与通道1是否交换：", torch.allclose(w_old[0], w_new[1]) and torch.allclose(w_old[1], w_new[0]))
-print("通道3与通道4是否交换：", torch.allclose(w_old[3], w_new[4]) and torch.allclose(w_old[4], w_new[3]))
+# 8. 保存修正后的 checkpoint（保持与 ultralytics 兼容的格式）
+torch.save(checkpoint, FIXED_PT)
+print(f"✅ 修正完成！已保存至：{FIXED_PT}")
