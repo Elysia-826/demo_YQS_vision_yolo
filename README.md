@@ -15,3 +15,6 @@ mAP@0.5:0.95 : 0.742
 box_loss: 0.8977
 cls_loss: 1.639
 dfl_loss: 0.9306
+
+## Model v1_fixed:在v1基础上进行了修正
+修正了v1因为data.yaml顺序错误导致的标注错误
