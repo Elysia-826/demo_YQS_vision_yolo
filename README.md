@@ -2,18 +2,28 @@
 
 问题:
 1.第一次训练pytorch只使用了cpu---装成了cpu版的pytorch(重装后解决)
+
 2.使用gpu时遇到windows多线程加载数据崩溃(补充workers = 0 解决)
+
 3.训练时程序无视代码要求的模型"yolo11n",自动下载yolo26(采用绝对路径后解决)
+
 4.在终端中直接用指令获得onnx文件后自己配置的yaml文件无法被x-Anylabeling导入(最终通过修改官方的yolo11s的yaml文件解决)
+
 5.模型导入后无法被使用(通过更正模型的绝对路径解决,应注意斜杠的使用)
 
 指标及参数(第32轮)
 Precision(p): 0.779
+
 Recall(r): 0.910
+
 mAP@0.5: 0.959
+
 mAP@0.5:0.95 : 0.742
+
 box_loss: 0.8977
+
 cls_loss: 1.639
+
 dfl_loss: 0.9306
 
 ## Model v1_fixed:在v1基础上进行了修正
