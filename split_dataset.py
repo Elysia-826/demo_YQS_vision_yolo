@@ -8,7 +8,7 @@ from iterstrat.ml_stratifiers import MultilabelStratifiedShuffleSplit
 # ================= 配置区域 =================
 # 所有图片和标签的公共父目录
 SRC_IMAGES = r"C:\Users\YQS\Desktop\dataset\images"   # 存放所有图片
-SRC_LABELS = r"C:\Users\YQS\Desktop\dataset\label"   # 存放所有标签
+SRC_LABELS = r"C:\Users\YQS\Desktop\dataset\labels"   # 存放所有标签
 
 # 输出目录（会自动在里面创建 images/train, labels/val 等）
 DST_ROOT = r"C:\Users\YQS\Desktop\dataset\splitted"
