@@ -2,7 +2,7 @@ from ultralytics import YOLO
 import os
 
 # 可替换为训练得到的 best.pt 实际路径
-PT_PATH = r"C:\Users\YQS\Desktop\yolo\runs\detect\runs\temp_seed\v3\weights\best.pt"
+PT_PATH = r"C:\Users\YQS\Desktop\yolo\runs\detect\runs\temp_seed\v3_s\weights\best.pt"
 
 def export_and_verify():
     # 1. 检查权重文件是否存在

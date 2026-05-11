@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 
 # 1. 加载上一版修正后的模型（best_fixed.pt）
-model = YOLO(r"C:\Users\YQS\Desktop\yolo\runs\detect\runs\temp_seed\v2-8\weights\best.pt")
+model = YOLO(r"C:\Users\YQS\Desktop\yolo\yolo11s.pt")
 
 # 2. 训练 v2 模型
 results = model.train(
@@ -16,7 +16,7 @@ results = model.train(
     workers=0,                  # 根据 CPU 核心数调整
     patience=30,                # 早停，避免过度训练
     project="runs/temp_seed",   # 保存目录
-    name="v3",                  # 本次训练名称
+    name="v3_s",                  # 本次训练名称
     exist_ok=False,             # 不覆盖已有同名目录
     # 以下为推荐的数据增强参数（可以根据需要开启）
     hsv_h=0.015, hsv_s=0.7, hsv_v=0.4,
