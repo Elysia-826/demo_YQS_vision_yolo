@@ -1,0 +1,15 @@
+type: yolo11
+name: yolo11s-r20240930
+provider: Ultralytics
+display_name: v1_beta2
+model_path: "C:\\Users\\YQS\\Desktop\\yolo\\runs\\detect\\runs\\temp_seed\\v1\\weights\\best_fixed.onnx"
+input_size: [640, 640]
+iou_threshold: 0.45
+conf_threshold: 0.25
+classes:
+  - blue1
+  - blue3
+  - bluesb
+  - red1
+  - red3
+  - redsb
