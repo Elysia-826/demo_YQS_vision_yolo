@@ -7,11 +7,11 @@ from iterstrat.ml_stratifiers import MultilabelStratifiedShuffleSplit
 
 # ================= 配置区域 =================
 # 所有图片和标签的公共父目录
-SRC_IMAGES = r"C:\Users\YQS\Desktop\dataset\images"   # 存放所有图片
-SRC_LABELS = r"C:\Users\YQS\Desktop\dataset\labels"   # 存放所有标签
+SRC_IMAGES = r"C:\Users\YQS\Desktop\new_data\images"   # 存放所有图片
+SRC_LABELS = r"C:\Users\YQS\Desktop\new_data\labels"   # 存放所有标签
 
 # 输出目录（会自动在里面创建 images/train, labels/val 等）
-DST_ROOT = r"C:\Users\YQS\Desktop\dataset\splitted"
+DST_ROOT = r"C:\Users\YQS\Desktop\new_data\splitted"
 
 # 划分比例：训练:验证:测试
 RATIOS = (0.7, 0.2,0.1)      # 7:2:1，可根据需求调整

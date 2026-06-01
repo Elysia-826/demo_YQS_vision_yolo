@@ -11,21 +11,22 @@ results = model.train(
     lrf=0.01,
     warmup_epochs=5,   # 更长的预热
     imgsz=640,
-    batch=8,                    # 根据显存调整
+    batch=16,                    # 根据显存调整
     device=0,                   # GPU 0
-    workers=0,                  # 根据 CPU 核心数调整
+    workers=4,                  # 根据 CPU 核心数调整
     patience=30,                # 早停，避免过度训练
     project="runs/temp_seed",   # 保存目录
-    name="v3_s",                  # 本次训练名称
+    name="v4",                  # 本次训练名称
     exist_ok=False,             # 不覆盖已有同名目录
     # 以下为推荐的数据增强参数（可以根据需要开启）
-    hsv_h=0.015, hsv_s=0.7, hsv_v=0.4,
-    degrees=5.0,
+    hsv_h=0.015, hsv_s=0.7, hsv_v=0.5,
+    degrees=0.0,
     translate=0.1,
     scale=0.5,
     fliplr=0.5,                 # 左右翻转可能有帮助，但注意装甲板特征对称性
     mosaic=1.0,                 # 使用 mosaic 增强
     close_mosaic=15,            # 延后关闭，避免早期过拟合
-    mixup=0.1,                  # 轻微 mixup
-    copy_paste=0.1,             # 轻微复制粘贴增强
+    mixup=0.2,                  # 轻微 mixup
+    copy_paste=0.3,             # 轻微复制粘贴增强
+    multi_scale=True,
 )
