@@ -106,6 +106,7 @@ mAP50：0.947
 mAP50-95：0.730
 
 各类别结果：
+
 类别     Precision     Recall      mAP50
 
 blue1     0.896        0.818       0.940
