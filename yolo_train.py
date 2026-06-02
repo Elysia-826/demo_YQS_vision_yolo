@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 
 # 1. 加载上一版修正后的模型（best_fixed.pt）
-model = YOLO(r"C:\Users\YQS\Desktop\yolo\yolo11s.pt")
+model = YOLO(r"C:\Users\YQS\Desktop\yolo\runs\detect\runs\temp_seed\v3\weights\best.pt")
 
 # 2. 训练 v2 模型
 results = model.train(
